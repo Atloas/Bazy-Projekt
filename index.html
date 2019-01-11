@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Bazy Danych - Projekt" />
+        <meta name="author" content="Michał Zbrożek" />
+        
+        <title>Salon samochodowy</title>
+
+        <link rel="stylesheet" href="style.css" />
+        <script src="indexScript.js" ></script>
+    </head>
+    <body>
+        <header>
+
+        </header>
+        <!-- Dropdown z akcjami, które można wykonać: Wprowadź dane, Odczytaj dane -->
+        <!-- Wybranie akcji spowoduje pojawienie się następnego inputu do wyboru akcji ew inputów do danych: -->
+        <!-- Wprowadź -> Nowy samochod, nowy model, nowy pracownik, nowy klient, nowa sprzedaz -->
+        <!-- Odczytaj -> samochody, klienci, modele, pracownicy itp. -->
+        <!-- Dostęp do danych przez funkcje -->
+        <form name="insertKlientForm" action="#">
+            <input name="imie" />
+            <input name="nazwisko" />
+            <input name="miasto" />
+            <input name="ulica" />
+            <input type="button" onclick="_insertKlient()" value="Prześlij"/>
+        </form>
+        <footer>
+            Michał Zbrożek
+        </footer>
+    </body>
+</html>

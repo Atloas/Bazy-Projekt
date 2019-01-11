@@ -1,0 +1,1 @@
+curl -i -d '{"tableName": "klienci", "imie": "Test", "nazwisko": "Test", "miasto": "Test", "ulica": "Test"}' -X POST http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/save
