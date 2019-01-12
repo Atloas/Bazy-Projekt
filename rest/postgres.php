@@ -40,6 +40,12 @@ class db
     function insert($tableName, $data)
     {
         $ret = pg_insert($this->dbconn, $tableName, $data);
+        return pg_fetch_all($ret);
+    }
+
+    function select($tableName, $where)
+    {
+        $ret = pg_query($this->dbconn, "SELECT * FROM klienci;");
         return $ret;
     }
 

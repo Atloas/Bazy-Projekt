@@ -24,8 +24,18 @@
             <input name="nazwisko" />
             <input name="miasto" />
             <input name="ulica" />
-            <input type="button" onclick="_insertKlient()" value="Prześlij"/>
+            <input type="button" name="przeslijButton" onclick="_insert()" value="Prześlij"/>
         </form>
+        <form name="selectKlientForm" action="#">
+            <input name="whereImie" />
+            <input name="whereNazwisko" />
+            <input name="whereMiasto" />
+            <input name="whereUlica" />
+            <input type="button" name="przeslijButton" onclick="_select()" value="Prześlij"/>
+        </form>
+        <div id="response">
+
+        </div>
         <footer>
             Michał Zbrożek
         </footer>

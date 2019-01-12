@@ -27,7 +27,7 @@ class API extends REST
     {
         if($this->get_request_method() != "POST")
             $this->response('', 406);
- 
+
         if(!empty($this->_request))
         {
             try
@@ -61,11 +61,34 @@ class API extends REST
 
     private function _list()
     {
-        if($this->get_request_method() != "GET")
-            $this->response('', 406);
-        $result = $this->db->select();
-        $this->response($this->json($result), 200);
-           //$this->response('', 204);    // If no records "No Content" status
+        if(!empty($this->_request))
+        {
+            try
+            {
+                $json_array = json_decode($this->_request, true);
+                $tableName = $json_array["tableName"];
+                unset($json_array["tableName"]);
+                $res = $this->db->select($tableName, $json_array);      //Zwróci obiekt połączenia z bd, lub FALSE
+                if ($res)
+                   $this->response($this->json($res), 200);
+                else
+                {
+                    $test = array();
+                    $test["test"] = "test";
+                    $result = array('return'=>'error');
+                    $this->response($this->json($test), 200);//$this->json($result), 200);
+                }
+            }
+            catch (Exception $e)
+            {
+                $this->response('', 400);
+            }
+        }
+        else
+        {
+            $error = array('status' => "Failed", "msg" => "Invalid read data");
+            $this->response($this->json($error), 400);
+        }
     }
 
     private function _delete0()

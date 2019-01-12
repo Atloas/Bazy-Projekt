@@ -23,7 +23,7 @@ function getRequestObject()
         return null;
 }
 
-function _insertKlient()
+function _insert()
 {
     var klient = {};
     klient.tableName = "klienci";
@@ -31,8 +31,43 @@ function _insertKlient()
     klient.nazwisko = insertKlientForm.nazwisko.value;
     klient.miasto = insertKlientForm.miasto.value;
     klient.ulica = insertKlientForm.ulica.value;
-    var txt = JSON.stringify(klient);
+    var toSend = JSON.stringify(klient);
     request = getRequestObject();
     request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/save", true);
-    request.send(txt);
+    request.send(toSend);
+}
+
+function _select()
+{
+    var children = selectKlientForm.children;
+    var klient = {};
+    klient.tableName = "klienci";
+    for (var i = 0; i < children.length; i++)
+    {
+        if(children[i].tagName == "INPUT" && children[i].name != "przeslijButton" && children[i].value != "")
+            klient[children[i].name] = children[i].value;
+    }
+    var toSend = JSON.stringify(klient);
+    request = getRequestObject();
+    request.onreadystatechange = function()
+    {
+        if (request.readyState == 4)
+        {
+            var div = document.getElementById("response");
+            var json = JSON.parse(request.response);
+            var txt;
+            for (var id in json)
+            {
+                txt +=  id+": {";
+                for (var prop in json[id])
+                {
+                    txt += prop+ ":"+ json[id][prop] + ",";
+                }
+                txt +="}<br/>";
+            }
+            div.innerHTML = txt;
+        }
+    }
+    request.open("GET", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/list", true);
+    request.send(toSend);
 }
