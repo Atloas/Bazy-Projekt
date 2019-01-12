@@ -19,18 +19,32 @@
         <!-- Wprowadź -> Nowy samochod, nowy model, nowy pracownik, nowy klient, nowa sprzedaz -->
         <!-- Odczytaj -> samochody, klienci, modele, pracownicy itp. -->
         <!-- Dostęp do danych przez funkcje -->
-        <form name="insertKlientForm" action="#">
-            <input name="imie" />
-            <input name="nazwisko" />
-            <input name="miasto" />
-            <input name="ulica" />
-            <input type="button" name="przeslijButton" onclick="_insert()" value="Prześlij"/>
+        <form name="insertForm" action="#" table="klienci">
+            <select name="tableSelect" id="insertTableSelect">
+                <option value="none">Wybierz tabelę</option>
+                <option value="klienci">Klienci</option>
+                <option value="samochody">Samochody</option>
+                <option value="pracownicy">Pracownicy</option>
+                <option value="modele">Modele</option>
+                <option value="sprzedaze">Sprzedaze</option>
+                <option value="salony">Salony</option>
+                <option value="paliwo">Paliwo</option>
+                <option value="marki">Marki</option>
+            </select>
+            <div id="insertArgumentArea"></div>
+            <input type="button" name="przeslijButton" id="insertButton" onclick="_insert()" value="Prześlij" disabled/>
         </form>
-        <form name="selectKlientForm" action="#">
-            <input name="whereImie" />
-            <input name="whereNazwisko" />
-            <input name="whereMiasto" />
-            <input name="whereUlica" />
+        <form name="selectForm" action="#">
+            <select name="tableSelect">
+                <option value="klienci">Klienci</option>
+                <option value="samochody">Samochody</option>
+                <option value="pracownicy">Pracownicy</option>
+                <option value="modele">Modele</option>
+                <option value="sprzedaze">Sprzedaze</option>
+                <option value="salony">Salony</option>
+                <option value="paliwo">Paliwo</option>
+                <option value="marki">Marki</option>
+            </select>
             <input type="button" name="przeslijButton" onclick="_select()" value="Prześlij"/>
         </form>
         <div id="response">

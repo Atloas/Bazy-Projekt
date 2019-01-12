@@ -65,18 +65,16 @@ class API extends REST
         {
             try
             {
-                $json_array = json_decode($this->_request, true);
-                $tableName = $json_array["tableName"];
-                unset($json_array["tableName"]);
-                $res = $this->db->select($tableName, $json_array);      //Zwróci obiekt połączenia z bd, lub FALSE
+                $tableName = $this->_args[0];
+                $res = $this->db->select($tableName);      //Zwróci obiekt połączenia z bd, lub FALSE
                 if ($res)
-                   $this->response($this->json($res), 200);
+                {
+                    $this->response($this->json($res), 200);
+                }
                 else
                 {
-                    $test = array();
-                    $test["test"] = "test";
                     $result = array('return'=>'error');
-                    $this->response($this->json($test), 200);//$this->json($result), 200);
+                    $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
