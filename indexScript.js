@@ -9,7 +9,8 @@ else
 
 function ready()
 {
-    document.getElementById("insertTableSelect").addEventListener("change", insertTableChanged)
+    insertForm.tableSelect.addEventListener("change", insertTableChanged)
+    selectForm.tableSelect.addEventListener("change", selectTableChanged)
 }
 
 var request;
@@ -74,7 +75,7 @@ function insertTableChanged(event)
 {
     var value = event.target.value;
     var div = document.getElementById("insertArgumentArea");
-    var button = document.getElementById("insertButton");
+    var button = insertForm.przeslijButton;
     switch(value)
     {
         case "none":
@@ -153,4 +154,14 @@ function insertTableChanged(event)
             break;
         }
     }
+}
+
+function selectTableChanged(event)
+{
+    var value = event.target.value;
+    var button = selectForm.przeslijButton;
+    if(value == "none")
+        button.disabled = true;
+    else
+        button.disabled = false;
 }

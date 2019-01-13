@@ -66,7 +66,7 @@ class API extends REST
             try
             {
                 $tableName = $this->_args[0];
-                $res = $this->db->select($tableName);      //Zwróci obiekt połączenia z bd, lub FALSE
+                $res = $this->db->selectAll($tableName);      //Zwróci obiekt połączenia z bd, lub FALSE
                 if ($res)
                 {
                     $this->response($this->json($res), 200);
@@ -125,17 +125,8 @@ class API extends REST
         }
     }
 
-    private function _update0()
-    {
-        $this->_update(0);
-    }
-
-    private function _update1()
-    {
-        $this->_update(1);
-    }
-
-    private function _update($flag)
+    //TODO
+    private function _update()
     {
         if($this->get_request_method() != "PUT")
             $this->response('', 406);

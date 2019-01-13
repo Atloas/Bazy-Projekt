@@ -21,21 +21,21 @@ CREATE FUNCTION insertSalony(VARCHAR, VARCHAR) RETURNS BOOLEAN AS '
 
 CREATE FUNCTION insertModele(INTEGER, VARCHAR, INTEGER, NUMERIC(4,2), INTEGER, VARCHAR, INTEGER, INTEGER) RETURNS BOOLEAN AS '
     BEGIN
-        INSERT INTO modele (marka_id, nazwa, moc, masa, paliwo_id, spalanie, rocznik, cena) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+        INSERT INTO modele (marki_id, nazwa, moc, masa, paliwo_id, spalanie, rocznik, cena) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
         RETURN TRUE;
     END
 ' LANGUAGE 'plpgsql';
 
 CREATE FUNCTION insertSamochody(INTEGER, INTEGER, VARCHAR) RETURNS BOOLEAN AS '
     BEGIN
-        INSERT INTO samochody (model_id, salon_id, vin) VALUES ($1, $2, $3);
+        INSERT INTO samochody (modele_id, salony_id, vin) VALUES ($1, $2, $3);
         RETURN TRUE;
     END
 ' LANGUAGE 'plpgsql';
 
 CREATE FUNCTION insertPracownicy(VARCHAR, VARCHAR, VARCHAR, NUMERIC(7, 2), INTEGER) RETURNS BOOLEAN AS '
     BEGIN
-        INSERT INTO pracownicy (imie, nazwisko, pozycja, placa, salon_id) VALUES ($1, $2, $3, $4, $5);
+        INSERT INTO pracownicy (imie, nazwisko, pozycja, placa, salony_id) VALUES ($1, $2, $3, $4, $5);
         RETURN TRUE;
     END
 ' LANGUAGE 'plpgsql';
@@ -49,7 +49,7 @@ CREATE FUNCTION insertKlienci(VARCHAR, VARCHAR, VARCHAR, VARCHAR) RETURNS BOOLEA
 
 CREATE FUNCTION insertSprzedaze(INTEGER, INTEGER, INTEGER, INTEGER, DATE) RETURNS BOOLEAN AS '
     BEGIN
-        INSERT INTO sprzedaze (samochod_id, klient_id, pracownik_id, salon_id, data) VALUES ($1, $2, $3, $4);
+        INSERT INTO sprzedaze (samochody_id, klienci_id, pracownicy_id, salony_id, data) VALUES ($1, $2, $3, $4, $5);
         RETURN TRUE;
     END
 ' LANGUAGE 'plpgsql';

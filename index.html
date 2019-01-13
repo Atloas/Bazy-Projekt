@@ -20,7 +20,7 @@
         <!-- Odczytaj -> samochody, klienci, modele, pracownicy itp. -->
         <!-- Dostęp do danych przez funkcje -->
         <form name="insertForm" action="#" table="klienci">
-            <select name="tableSelect" id="insertTableSelect">
+            <select name="tableSelect">
                 <option value="none">Wybierz tabelę</option>
                 <option value="klienci">Klienci</option>
                 <option value="samochody">Samochody</option>
@@ -32,10 +32,11 @@
                 <option value="marki">Marki</option>
             </select>
             <div id="insertArgumentArea"></div>
-            <input type="button" name="przeslijButton" id="insertButton" onclick="_insert()" value="Prześlij" disabled/>
+            <input type="button" name="przeslijButton" onclick="_insert()" value="Insert" disabled />
         </form>
         <form name="selectForm" action="#">
             <select name="tableSelect">
+                <option value="none">Wybierz tabelę</option>
                 <option value="klienci">Klienci</option>
                 <option value="samochody">Samochody</option>
                 <option value="pracownicy">Pracownicy</option>
@@ -45,7 +46,7 @@
                 <option value="paliwo">Paliwo</option>
                 <option value="marki">Marki</option>
             </select>
-            <input type="button" name="przeslijButton" onclick="_select()" value="Prześlij"/>
+            <input type="button" name="przeslijButton" onclick="_select()" value="Select" disabled />
         </form>
         <div id="response">
 

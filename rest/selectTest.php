@@ -2,7 +2,7 @@
 
 require("postgres.php");
 $db = new db;
-$response = $db->select("klienci");
+$response = $db->selectAll("klienci");
 foreach($response as $query)
 {
     foreach($query as $field)
