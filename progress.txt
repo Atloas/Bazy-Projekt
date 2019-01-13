@@ -1,1 +1,0 @@
-Strona główna działa, mogę wysłać do bazy poleceenie zapisu nowego klienta, api to przerabia i poprawnie chyba wysyła, DZIAŁA, literówka była

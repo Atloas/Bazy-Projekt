@@ -22,12 +22,8 @@ class API extends REST
             $this->response('Page not found', 404);
     }
 
-    //Na razie tylko to
-    private function _save()
+    private function _insert()
     {
-        if($this->get_request_method() != "POST")
-            $this->response('', 406);
-
         if(!empty($this->_request))
         {
             try
@@ -59,13 +55,14 @@ class API extends REST
         }
     }
 
-    private function _list()
+    private function _select()
     {
         if(!empty($this->_request))
         {
             try
             {
-                $tableName = $this->_args[0];
+                $json_array = json_decode($this->_request, true);
+                $tableName = $json_array["tableName"];
                 $res = $this->db->selectAll($tableName);      //Zwróci obiekt połączenia z bd, lub FALSE
                 if ($res)
                 {
@@ -89,47 +86,65 @@ class API extends REST
         }
     }
 
-    //Doesn't work
     private function _delete()
     {
-        if($this->get_request_method() != "DELETE")
-            $this->response('', 406);
-        $tableName = $this->args[0];
-        //$id = array(
-        //    $this->arg[1] => $this->arg[2]
-        //);
-        $res = $this->db->deleteById($tableName, $id);
-        if($res)
+        if(!empty($this->_request))
         {
-            $success = array('status' => "Success", "msg" => "Successfully one record deleted. Record - ");// . key($id) . ": " . current($id));
-            $this->response($this->json($success), 200);
-        }
-        else
-        {
-            $failed = array('status' => "Failed", "msg" => "No records deleted " . $tableName);//) . " " . key($id) . " " . current($id));
-            $this->response($this->json($failed), 200);
+            try
+            {
+                $json_array = json_decode($this->_request, true);
+                $tableName = $json_array["tableName"];
+                unset($json_array["tableName"]);
+                $res = $this->db->deleteById($tableName, $json_array);
+                if($res)
+                {
+                    $success = array('status' => "Success", "msg" => "Successfully one record deleted. Record - " . $tableName . " " . key($json_array) . " " . current($json_array));
+                    $this->response($this->json($success), 200);
+                }
+                else
+                {
+                    $failed = array('status' => "Failed", "msg" => "No records deleted "  . $tableName . " " . key($json_array) . " " . current($json_array));
+                    $this->response($this->json($failed), 200);
+                }
+            }
+            catch (Exception $e)
+            {
+                $this->response('', 400);
+            }
         }
     }
 
-    //TODO
     private function _update()
     {
-        if($this->get_request_method() != "PUT")
-            $this->response('', 406);
-        $id = $this->_args[0];
-        $json_array = json_decode($this->_request, true);
-        if(!empty($id))
+        if(!empty($this->_request))
         {
-            $res = $this->db->update($id, $json_array, $flag);
-            if($res > 0)
+            try
             {
-                $success = array('status' => "Success", "msg" => "Successfully one record updated.");
-                $this->response($this->json($success), 200);
+                $json_array = json_decode($this->_request, true);
+                foreach($json_array as $key => $value)
+                {
+                    $string = $string . " - " . $key . " - " . $value . "<br />";
+                }
+                $tableName = $json_array["tableName"];
+                $id["idName"] = $tableName . "_id";
+                $id["idValue"] = $json_array[$id["idName"]];
+                unset($json_array["tableName"]);
+                unset($json_array[$tableName . "_id"]);
+                $res = $this->db->updateById($tableName, $id, $json_array);
+                if($res > 0)
+                {
+                    $success = array('status' => "Success", "msg" => "Successfully one record updated. " . $tableName . " - " . $id["idName"] . " - " . $id["idValue"]);
+                    $this->response($this->json($success), 200);
+                }
+                else
+                {
+                    $failed = array('status' => "Failed", "msg" => "No records updated. " . $tableName . " - " . $id["idName"] . " - " . $id["idValue"]);
+                    $this->response($this->json($failed), 200);
+                }
             }
-            else
+            catch (Exception $e)
             {
-                $failed = array('status' => "Failed", "msg" => "No records updated.");
-                $this->response($this->json($failed), 200);
+                $this->response('', 400);
             }
         }
         else

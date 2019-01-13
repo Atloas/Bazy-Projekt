@@ -2,16 +2,15 @@
 
 require("postgres.php");
 $db = new db;
-$tab = array();
-$tab["samochody_id"] = "1";
-$tab["klienci_id"] = "1";
-$tab["pracownicy_id"] = "1";
-$tab["salony_id"] = "1";
-$tab["data"] = "2019-01-01";
-$id = array(
-    "sprzedaze_id" => "3"
+$tab = array(
+    "nazwa" => "gasoline"
 );
-$response = $db->updateById("sprzedaze", $id, $tab);
+$id = array(
+    "idName" => "paliwo_id",
+    "idValue" => "1"
+);
+
+$response = $db->updateById("paliwo", $id, $tab);
 echo $response;
 
 ?>

@@ -56,8 +56,8 @@ class db
     {
         $updateString = $this->formatUpdateString($data);
         $tableName = pg_escape_string($this->dbconn, $tableName);
-        $idName = pg_escape_string(key($id));
-        $idValue = pg_escape_string(current($id));
+        $idName = pg_escape_string($this->dbconn, $id["idName"]);
+        $idValue = pg_escape_string($this->dbconn, $id["idValue"]);
         $string = "UPDATE {$tableName} SET {$updateString} WHERE {$idName} = {$idValue};";
         $ret = pg_query($this->dbconn, $string);
         return $ret;
@@ -66,8 +66,8 @@ class db
     function deleteById($tableName, $id)
     {
         $tableName = pg_escape_string($this->dbconn, $tableName);
-        $idName = pg_escape_string(key($id));
-        $idValue = pg_escape_string(current($id));
+        $idName = pg_escape_string($this->dbconn, $id["idName"]);
+        $idValue = pg_escape_string($this->dbconn, $id["idValue"]);
         $string = "DELETE FROM {$tableName} WHERE {$idName} = {$idValue};";
         $ret = pg_query($this->dbconn, $string);
         return $ret;
