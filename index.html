@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
     <head>
         <meta charset="UTF-8" />
         <meta name="description" content="Bazy Danych - Projekt" />
@@ -19,7 +19,7 @@
         <!-- Wprowadź -> Nowy samochod, nowy model, nowy pracownik, nowy klient, nowa sprzedaz -->
         <!-- Odczytaj -> samochody, klienci, modele, pracownicy itp. -->
         <!-- Dostęp do danych przez funkcje -->
-        <form name="insertForm" action="#" table="klienci">
+        <form name="insertForm" action="#">
             <select name="tableSelect">
                 <option value="none">Wybierz tabelę</option>
                 <option value="klienci">Klienci</option>
@@ -47,6 +47,36 @@
                 <option value="marki">Marki</option>
             </select>
             <input type="button" name="przeslijButton" onclick="_select()" value="Select" disabled />
+        </form>
+        <form name="updateForm" action="#">
+            <select name="tableSelect">
+                <option value="none">Wybierz tabelę</option>
+                <option value="klienci">Klienci</option>
+                <option value="samochody">Samochody</option>
+                <option value="pracownicy">Pracownicy</option>
+                <option value="modele">Modele</option>
+                <option value="sprzedaze">Sprzedaze</option>
+                <option value="salony">Salony</option>
+                <option value="paliwo">Paliwo</option>
+                <option value="marki">Marki</option>
+            </select>
+            <div id="updateArgumentArea"></div>
+            <input type="button" name="przeslijButton" onclick="_update()" value="Update" disabled />
+        </form>
+        <form name="deleteForm" action="#">
+            <select name="tableSelect">
+                <option value="none">Wybierz tabelę</option>
+                <option value="klienci">Klienci</option>
+                <option value="samochody">Samochody</option>
+                <option value="pracownicy">Pracownicy</option>
+                <option value="modele">Modele</option>
+                <option value="sprzedaze">Sprzedaze</option>
+                <option value="salony">Salony</option>
+                <option value="paliwo">Paliwo</option>
+                <option value="marki">Marki</option>
+            </select>
+            <div id="deleteArgumentArea"></div>
+            <input type="button" name="przeslijButton" onclick="_delete()" value="Delete" disabled />
         </form>
         <div id="response">
 

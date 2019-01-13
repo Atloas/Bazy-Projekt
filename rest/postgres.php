@@ -60,6 +60,17 @@ class db
         $idValue = pg_escape_string(current($id));
         $string = "UPDATE {$tableName} SET {$updateString} WHERE {$idName} = {$idValue};";
         $ret = pg_query($this->dbconn, $string);
+        return $ret;
+    }
+
+    function deleteById($tableName, $id)
+    {
+        $tableName = pg_escape_string($this->dbconn, $tableName);
+        $idName = pg_escape_string(key($id));
+        $idValue = pg_escape_string(current($id));
+        $string = "DELETE FROM {$tableName} WHERE {$idName} = {$idValue};";
+        $ret = pg_query($this->dbconn, $string);
+        return $ret;
     }
 
     function formatArgString($args)

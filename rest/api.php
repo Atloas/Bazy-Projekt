@@ -89,39 +89,25 @@ class API extends REST
         }
     }
 
-    private function _delete0()
-    {
-        $this->_delete(0);
-    }
-
-    private function _delete1()
-    {
-        $this->_delete(1);
-    }
-
-    private function _delete($flag)
+    //Doesn't work
+    private function _delete()
     {
         if($this->get_request_method() != "DELETE")
             $this->response('', 406);
-        $id = $this->_args[0];
-        if(!empty($id))
+        $tableName = $this->args[0];
+        //$id = array(
+        //    $this->arg[1] => $this->arg[2]
+        //);
+        $res = $this->db->deleteById($tableName, $id);
+        if($res)
         {
-            $res = $this->db->delete($id, $flag);
-            if($res)
-            {
-                $success = array('status' => "Success", "msg" => "Successfully one record deleted. Record - " . $id);
-                $this->response($this->json($success), 200);
-            }
-            else
-            {
-                $failed = array('status' => "Failed", "msg" => "No records deleted" );
-                $this->response($this->json($failed), 200);
-            }
+            $success = array('status' => "Success", "msg" => "Successfully one record deleted. Record - ");// . key($id) . ": " . current($id));
+            $this->response($this->json($success), 200);
         }
         else
         {
-            $failed = array('status' => "No content", "msg" => "No records deleted" );
-            $this->response($this->json($failed), 204);    // If no records "No Content" status
+            $failed = array('status' => "Failed", "msg" => "No records deleted " . $tableName);//) . " " . key($id) . " " . current($id));
+            $this->response($this->json($failed), 200);
         }
     }
 
