@@ -1,0 +1,1 @@
+Te cztery podstawowe operacje dzia³aj¹, teraz robiæ mnówsto funkcji i je podpinaæ, potem UI?
