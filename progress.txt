@@ -1,1 +1,4 @@
-Te cztery podstawowe operacje dzia�aj�, teraz robi� mn�wsto funkcji i je podpina�, potem UI?
+Widoki dla kilku popularnych selectow, traktowac jak funkcje? Wkładać nazwę paliwa zamiast id, i markę też? DONE?
+Domeny (custom typy danych) dla vin, moze cos jeszcze? DONE?
+Funkcje do np. sparametryzowane widoki, zamknięcia jednego salonu (eh, delete też by dziłał chyba, ale można spróbować), //AD FUNKCJE: RETURNS void działa
+Trigger sprawdzający po VINie, czy taki juz czasem nie istnieje. po kliencie to samo (ale wszystkie 4 pola). DONE

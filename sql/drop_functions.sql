@@ -1,29 +1,9 @@
-DROP FUNCTION insertPaliwo(VARCHAR);
+DROP TRIGGER InsertUpdateSamochody ON samochody;
+DROP TRIGGER InsertUpdateKlienci ON klienci;
+DROP TRIGGER InsertUpdatePaliwo ON paliwo;
+DROP TRIGGER InsertUpdateMarki ON marki;
 
-DROP FUNCTION insertMarki(VARCHAR);
-
-DROP FUNCTION insertSalony(VARCHAR, VARCHAR);
-
-DROP FUNCTION insertModele(INTEGER, VARCHAR, INTEGER, NUMERIC(4,2), INTEGER, VARCHAR, INTEGER, INTEGER);
-
-DROP FUNCTION insertSamochody(INTEGER, INTEGER, VARCHAR);
-
-DROP FUNCTION insertPracownicy(VARCHAR, VARCHAR, VARCHAR, NUMERIC(7, 2), INTEGER);
-
-DROP FUNCTION insertKlienci(VARCHAR, VARCHAR, VARCHAR, VARCHAR);
-
-DROP FUNCTION insertSprzedaze(INTEGER, INTEGER, INTEGER, INTEGER, DATE);
-
-DROP FUNCTION selectPaliwo();
-
-DROP FUNCTION selectModele();
-
-DROP FUNCTION selectSamochody();
-
-DROP FUNCTION selectPracownicy();
-
-DROP FUNCTION selectKlienci();
-
-DROP FUNCTION selectSalony();
-
-DROP FUNCTION selectSprzedaze();
+DROP FUNCTION nowySamochod();
+DROP FUNCTION nowyKlient();
+DROP FUNCTION nowePaliwo();
+DROP FUNCTION nowaMarka();

@@ -37,7 +37,7 @@ function _insert()
     }
     data["tableName"] = insertForm.tableSelect.value;
     request = getRequestObject();
-    request.onreadystatechange = _insertResponse;
+    request.onreadystatechange = _response;
     request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/insert", true);
     console.log(data);
     request.send(JSON.stringify(data));
@@ -49,7 +49,7 @@ function _select()
     data["tableName"] = selectForm.tableSelect.value;
     console.log(data);
     request = getRequestObject();
-    request.onreadystatechange = _selectResponse;
+    request.onreadystatechange = _response;
     request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/select", true);
     request.send(JSON.stringify(data));
 }
@@ -65,7 +65,7 @@ function _update()
     }
     data["tableName"] = updateForm.tableSelect.value;
     request = getRequestObject();
-    request.onreadystatechange = _updateResponse;
+    request.onreadystatechange = _response;
     request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/update", true);
     console.log(data);
     request.send(JSON.stringify(data));
@@ -86,44 +86,19 @@ function _delete()
     data["tableName"] = deleteForm.tableSelect.value;
     console.log(data);
     request = getRequestObject();
-    request.onreadystatechange = _deleteResponse;
+    request.onreadystatechange = _response;
     request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/delete", true);
     request.send(JSON.stringify(data));
 }
 
-function _insertResponse()
+function _response()
 {
     if (request.readyState == 4)
     {
         var div = document.getElementById("response");
-        div.innerHTML = request.response;
-    }
-}
-
-function _selectResponse()
-{
-    if (request.readyState == 4)
-    {
-        var div = document.getElementById("response");
-        div.innerHTML = request.response;
-    }
-}
-
-function _deleteResponse()
-{
-    if (request.readyState == 4)
-    {
-        var div = document.getElementById("response");
-        div.innerHTML = request.response;
-    }
-}
-
-function _updateResponse()
-{
-    if (request.readyState == 4)
-    {
-        var div = document.getElementById("response");
-        div.innerHTML = request.response;
+        var object = JSON.parse(request.response);
+        console.log(object);
+        div.innerHTML = jsonObjectToTable(object);
     }
 }
 
@@ -174,7 +149,7 @@ function insertTableChanged(event)
                             <input name="moc" type="number" />
                             <input name="masa" type="number" />
                             <input name="paliwo_id" type="number" />
-                            <input name="spalanie" />
+                            <input name="spalanie" type="number" />
                             <input name="rocznik" type="number" />
                             <input name="cena" type="number" />`;
             button.disabled = false;
@@ -273,7 +248,7 @@ function updateTableChanged(event)
                             <input name="moc" type="number" />
                             <input name="masa" type="number" />
                             <input name="paliwo_id" type="number" />
-                            <input name="spalanie" />
+                            <input name="spalanie" type="number" />
                             <input name="rocznik" type="number" />
                             <input name="cena" type="number" />`;
             button.disabled = false;
@@ -377,5 +352,45 @@ function deleteTableChanged(event)
             break;
         }
     }
+}
 
+function jsonObjectToTable(jsonObject)
+{
+    var keys = [];
+    var string = "<table>";
+    if(Array.isArray(jsonObject))
+    {
+        keys = Object.keys(jsonObject[0]);
+        string += "<tr>";
+        for(var i = 0; i < keys.length; i++)
+        {
+            string += "<th>" + keys[i] + "</th>";
+        }
+        string += "</tr>";
+        for(var i = 0; i < jsonObject.length; i++)
+        {
+            string += "<tr>";
+            for(var j = 0; j < keys.length; j++)
+            {
+                string += "<td>" + jsonObject[i][keys[j]] + "</td>";
+            }
+            string += "</tr>";
+        }
+    }
+    else
+    {
+        keys = Object.keys(jsonObject);
+        string += "<tr>";
+        for(var i = 0; i < keys.length; i++)
+        {
+            string += "<th>" + keys[i] + "</th>";
+        }
+        string += "</tr><tr>";
+        for(var j = 0; j < keys.length; j++)
+        {
+            string += "<td>" + jsonObject[keys[j]] + "</td>";
+        }
+        string += "</tr>";
+    }
+    return string += "</table>";
 }

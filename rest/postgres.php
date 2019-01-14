@@ -6,7 +6,7 @@ class db
     private $password = "6zbrozek";
     private $dbname = "u6zbrozek";
     private $host = "pascal.fis.agh.edu.pl";
-    private $intNameArray = array(
+    private $numberNameArray = array(
         1 => "model_id",
         2 => "marka_id",
         3 => "paliwo_id",
@@ -19,6 +19,7 @@ class db
         10 => "cena",
         11 => "rocznik",
         12 => "placa",
+        13 => "spalanie"
     );
 
     function __construct()
@@ -84,7 +85,7 @@ class db
             {
                 $string = $string . ",";
             }
-            if(in_array($key, $this->intNameArray))
+            if(in_array($key, $this->numberNameArray))
                 $string = $string . " " . pg_escape_string($this->dbconn, $value);
             else
                 $string = $string . " " . pg_escape_literal($this->dbconn, $value);
@@ -108,7 +109,7 @@ class db
                 $strKeys = $strKeys . ",";
                 $strValues = $strValues . ",";
             }
-            if(in_array($key, $this->intNameArray))
+            if(in_array($key, $this->numberNameArray))
                 $strValues = $strValues . " " . pg_escape_string($this->dbconn, $value);
             else
                 $strValues = $strValues . " " . pg_escape_literal($this->dbconn, $value);
@@ -134,7 +135,7 @@ class db
                 $strKeys = $strKeys . ",";
                 $strValues = $strValues . ",";
             }
-            if(in_array($key, $this->intNameArray))
+            if(in_array($key, $this->numberNameArray))
                 $strValues = $strValues . " " . pg_escape_string($this->dbconn, $value);
             else
                 $strValues = $strValues . " " . pg_escape_literal($this->dbconn, $value);

@@ -1,5 +1,9 @@
-\i drop_tables.sql
+\i drop_views.sql
 \i drop_functions.sql
+\i drop_tables.sql
+\i drop_sequences.sql
+\i create_sequences.sql
 \i create_tables.sql
 \i create_functions.sql
+\i create_views.sql
 \i pop_tables.sql
