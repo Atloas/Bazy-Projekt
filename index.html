@@ -78,6 +78,18 @@
             <div id="deleteArgumentArea"></div>
             <input type="button" name="przeslijButton" onclick="_delete()" value="Delete" disabled />
         </form>
+        <form name="functionForm" action="#">
+            <select name="functionSelect">
+                <option value="none">Wybierz funkcję</option>
+                <option value="sprzedaneSamochody">Klienci</option>
+                <option value="nieSprzedaneSamochody">Samochody</option>
+                <option value="klienciBezZakupu">Pracownicy</option>
+                <option value="modeleWgSpalaniaPaliwa">Modele</option>
+                <option value="modeleWgCenyMarki">Sprzedaze</option>
+            </select>
+            <div id="functionArgumentArea"></div>
+            <input type="button" name="przeslijButton" onclick="_function()" value="Użyj" disabled />
+        </form>
         <div id="response">
 
         </div>

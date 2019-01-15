@@ -13,6 +13,7 @@ function ready()
     selectForm.tableSelect.addEventListener("change", selectTableChanged);
     updateForm.tableSelect.addEventListener("change", updateTableChanged);
     deleteForm.tableSelect.addEventListener("change", deleteTableChanged);
+    functionForm.functionSelect.addEventListener("change", functionChanged);
 }
 
 var request;
@@ -100,6 +101,18 @@ function _response()
         console.log(object);
         div.innerHTML = jsonObjectToTable(object);
     }
+}
+
+var views = [
+    "sprzedaneSamochody",
+    "nieSprzedaneSamochody",
+    "klienciBezZakupu",
+    "modeleWgSpalaniaPaliwa",
+    "modeleWgCenyMarki"
+]
+function _function()
+{
+    //wykonuje wybraną funkcję, chyba trochę inne zachowanie dla widoków
 }
 
 function insertTableChanged(event)
@@ -352,6 +365,11 @@ function deleteTableChanged(event)
             break;
         }
     }
+}
+
+function functionChanged(event)
+{
+    //
 }
 
 function jsonObjectToTable(jsonObject)
