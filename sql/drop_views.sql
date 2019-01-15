@@ -1,4 +1,5 @@
-CREATE VIEW sprzedaneSamochody;
-CREATE VIEW nieSprzedaneSamochody;
-CREATE VIEW klienciBezZakupu;
-CREATE VIEW modeleWgSpalania;
+DROP VIEW sprzedaneSamochody;
+DROP VIEW nieSprzedaneSamochody;
+DROP VIEW klienciBezZakupu;
+DROP VIEW modeleWgCenyMarki;
+DROP VIEW modeleWgSpalaniaPaliwa;

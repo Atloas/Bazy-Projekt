@@ -27,13 +27,15 @@ class db
         $this->dbconn = pg_connect("host={$this->host} dbname={$this->dbname} user={$this->user} password={$this->password}");
     }
 
-    function useFunction($functionName, $args)
+    function useFunction($functionName, $function, $array)
     {
         $functionName = pg_escape_string($this->dbconn, $functionName);
-        $argString = $this->formatArgString($args);
+        $argString = "";
+        if($function == "true")
+            $argString = $this->formatArgString($array);
         $string = "SELECT * FROM {$functionName}{$argString};";
         $ret = pg_query($this->dbconn, $string);
-        return $ret;
+        return pg_fetch_all($ret);
     }
 
     function insert($tableName, $data)

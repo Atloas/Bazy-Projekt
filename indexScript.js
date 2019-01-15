@@ -113,6 +113,28 @@ var views = [
 function _function()
 {
     //wykonuje wybraną funkcję, chyba trochę inne zachowanie dla widoków
+    var value = functionForm.functionSelect.value;
+    var children = document.getElementById("updateArgumentArea").children;
+    var data = {};
+    data["functionName"] = value;
+    if(views.indexOf(value) == -1)
+    {
+        data["function"] = "true";
+        for (var i = 0; i < children.length; i++)
+        {
+            if(children[i].tagName == "INPUT" && children[i].name != "przeslijButton")
+                data[children[i].name] = children[i].value;
+        }
+    }
+    else
+    {
+        data["function"] = "false";
+    }
+    console.log(data);
+    request = getRequestObject();
+    request.onreadystatechange = _response;
+    request.open("POST", "http://pascal.fis.agh.edu.pl/~6zbrozek/ProjektBazy/rest/function", true);
+    request.send(JSON.stringify(data));
 }
 
 function insertTableChanged(event)
@@ -369,7 +391,27 @@ function deleteTableChanged(event)
 
 function functionChanged(event)
 {
-    //
+    var value = event.target.value;
+    var button = functionForm.przeslijButton;
+    var div = document.getElementById("functionArgumentArea");
+    if(views.indexOf(value) == -1)
+    {
+        //to funkcja
+        switch(value)
+        {
+            case "none":
+            {
+                div.innerHTML = "";
+                button.disabled = true;
+                break;
+            }
+        }
+    }
+    else
+    {
+        //to widok
+        button.disabled = false;
+    }
 }
 
 function jsonObjectToTable(jsonObject)

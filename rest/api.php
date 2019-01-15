@@ -151,6 +151,40 @@ class API extends REST
             $this->response('', 204); // If no records "No Content" status
     }
 
+    private function _function()
+    {
+        if(!empty($this->_request))
+        {
+            try
+            {
+                $json_array = json_decode($this->_request, true);
+                $functionName = $json_array["functionName"];
+                $function = $json_array["function"];
+                unset($json_array["function"]);
+                unset($json_array["functionName"]);
+                $res = $this->db->useFunction($functionName, $function, $json_array);      //Zwróci obiekt połączenia z bd, lub FALSE
+                if ($res)
+                {
+                    $this->response($this->json($res), 200);
+                }
+                else
+                {
+                    $result = array('return'=>'error');
+                    $this->response($this->json($result), 200);
+                }
+            }
+            catch (Exception $e)
+            {
+                $this->response('', 400);
+            }
+        }
+        else
+        {
+            $error = array('status' => "Failed", "msg" => "Invalid read data");
+            $this->response($this->json($error), 400);
+        }
+    }
+
     private function json($data)
     {
         if(is_array($data))
