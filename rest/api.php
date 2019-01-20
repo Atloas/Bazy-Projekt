@@ -34,23 +34,24 @@ class API extends REST
                 $res = $this->db->insert($tableName, $json_array);      //Zwróci obiekt połączenia z bd, lub FALSE
                 if ($res)
                 {
-                   $result = array('return'=>'ok');
+                   $result = array('status'=>'Success', 'msg' => 'Zapisano!');
                    $this->response($this->json($result), 200);
                 }
                 else
                 {
-                    $result = array('return'=>'not added');
+                    $result = array('status'=>'Failure', 'msg' => 'Błąd zapisu!');
                     $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
             {
-                $this->response('', 400);
+                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie zapisu!");
+                $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failed", "msg" => "Invalid send data");
+            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -70,18 +71,19 @@ class API extends REST
                 }
                 else
                 {
-                    $result = array('return'=>'error');
+                    $result = array('status'=>'Success', 'msg' => 'Błąd odczytu!');
                     $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
             {
-                $this->response('', 400);
+                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie odczytu!");
+                $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failed", "msg" => "Invalid read data");
+            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -98,19 +100,25 @@ class API extends REST
                 $res = $this->db->deleteById($tableName, $json_array);
                 if($res)
                 {
-                    $success = array('status' => "Success", "msg" => "Successfully one record deleted. Record - " . $tableName . " " . key($json_array) . " " . current($json_array));
+                    $success = array('status' => "Success", "msg" => "Usunięto!");
                     $this->response($this->json($success), 200);
                 }
                 else
                 {
-                    $failed = array('status' => "Failed", "msg" => "No records deleted "  . $tableName . " " . key($json_array) . " " . current($json_array));
+                    $failed = array('status' => "Failure", "msg" => "Błąd usuwania!");
                     $this->response($this->json($failed), 200);
                 }
             }
             catch (Exception $e)
             {
-                $this->response('', 400);
+                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie usunięcia!");
+                $this->response($this->json($error), 400);
             }
+        }
+        else
+        {
+            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $this->response($this->json($error), 400);
         }
     }
 
@@ -133,22 +141,26 @@ class API extends REST
                 $res = $this->db->updateById($tableName, $id, $json_array);
                 if($res > 0)
                 {
-                    $success = array('status' => "Success", "msg" => "Successfully one record updated. " . $tableName . " - " . $id["idName"] . " - " . $id["idValue"]);
+                    $success = array('status' => "Success", "msg" => "Poprawiono!");
                     $this->response($this->json($success), 200);
                 }
                 else
                 {
-                    $failed = array('status' => "Failed", "msg" => "No records updated. " . $tableName . " - " . $id["idName"] . " - " . $id["idValue"]);
+                    $failed = array('status' => "Failure", "msg" => "Błąd nadpisu!");
                     $this->response($this->json($failed), 200);
                 }
             }
             catch (Exception $e)
             {
-                $this->response('', 400);
+                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie nadpisu!");
+                $this->response($this->json($error), 400);
             }
         }
         else
-            $this->response('', 204); // If no records "No Content" status
+        {
+            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $this->response($this->json($error), 400);
+        }
     }
 
     private function _function()
@@ -169,18 +181,19 @@ class API extends REST
                 }
                 else
                 {
-                    $result = array('return'=>'error');
+                    $result = array('status' => 'Failure', 'msg' => 'Błąd funkcji!');
                     $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
             {
-                $this->response('', 400);
+                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie wywołania funkcji!");
+                $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failed", "msg" => "Invalid read data");
+            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }

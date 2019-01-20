@@ -9,3 +9,5 @@ DROP FUNCTION nowyKlient();
 DROP FUNCTION nowePaliwo();
 DROP FUNCTION nowaMarka();
 DROP FUNCTION nowyModel();
+
+DROP FUNCTION selectKlientByName(VARCHAR, VARCHAR);
