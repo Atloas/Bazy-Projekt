@@ -25,6 +25,7 @@ class db
     function __construct()
     {
         $this->dbconn = pg_connect("host={$this->host} dbname={$this->dbname} user={$this->user} password={$this->password}");
+        pg_last_notice($this->dbconn, PGSQL_NOTICE_CLEAR);
     }
 
     function useFunction($functionName, $function, $array)
@@ -44,6 +45,9 @@ class db
         $tableName = pg_escape_string($this->dbconn, $tableName);
         $string = "INSERT INTO {$tableName} {$insertString};";
         $ret = pg_query($this->dbconn, $string);
+        $notice = pg_last_notice($this->dbconn);
+        if($notice)
+            return $notice;
         return $ret;
     }
 
@@ -63,6 +67,9 @@ class db
         $idValue = pg_escape_string($this->dbconn, $id["idValue"]);
         $string = "UPDATE {$tableName} SET {$updateString} WHERE {$idName} = {$idValue};";
         $ret = pg_query($this->dbconn, $string);
+        $notice = pg_last_notice($this->dbconn);
+        if($notice)
+            return $notice;
         return $ret;
     }
 
@@ -73,6 +80,7 @@ class db
         $idValue = pg_escape_string($this->dbconn, $id["idValue"]);
         $string = "DELETE FROM {$tableName} WHERE {$idName} = {$idValue};";
         $ret = pg_query($this->dbconn, $string);
+        
         return $ret;
     }
 

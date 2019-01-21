@@ -3,11 +3,28 @@ DROP TRIGGER InsertUpdateKlienci ON klienci;
 DROP TRIGGER InsertUpdatePaliwo ON paliwo;
 DROP TRIGGER InsertUpdateMarki ON marki;
 DROP TRIGGER InsertUpdateModele ON modele;
+DROP TRIGGER InsertUpdateSalony ON salony;
 
 DROP FUNCTION nowySamochod();
 DROP FUNCTION nowyKlient();
 DROP FUNCTION nowePaliwo();
 DROP FUNCTION nowaMarka();
 DROP FUNCTION nowyModel();
+DROP FUNCTION nowySalon();
 
 DROP FUNCTION selectKlientByName(VARCHAR, VARCHAR);
+DROP FUNCTION selectPracownikByName(VARCHAR, VARCHAR);
+DROP FUNCTION selectSalonByCity(VARCHAR);
+DROP FUNCTION selectModelBelowPrice(INTEGER);
+DROP FUNCTION selectModelAbovePrice(INTEGER);
+DROP FUNCTION selectPracownikBySalonId(INTEGER);
+DROP FUNCTION selectSprzedazBeforeDate(DATE);
+DROP FUNCTION selectSprzedazAfterDate(DATE);
+DROP FUNCTION selectPaliwoById(INTEGER);
+DROP FUNCTION selectMarkaById(INTEGER);
+DROP FUNCTION selectSalonById(INTEGER);
+DROP FUNCTION selectModelById(INTEGER);
+DROP FUNCTION selectSamochodById(INTEGER);
+DROP FUNCTION selectKlientById(INTEGER);
+DROP FUNCTION selectPracownikById(INTEGER);
+DROP FUNCTION selectSprzedazById(INTEGER);

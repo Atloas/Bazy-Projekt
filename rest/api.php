@@ -32,6 +32,11 @@ class API extends REST
                 $tableName = $json_array["tableName"];
                 unset($json_array["tableName"]);
                 $res = $this->db->insert($tableName, $json_array);      //Zwróci obiekt połączenia z bd, lub FALSE
+                if(is_string($res))
+                {
+                    $result = array('status'=>'Failure', 'msg' => $res);
+                    $this->response($this->json($result), 400);
+                }
                 if ($res)
                 {
                    $result = array('status'=>'Success', 'msg' => 'Zapisano!');
@@ -39,19 +44,19 @@ class API extends REST
                 }
                 else
                 {
-                    $result = array('status'=>'Failure', 'msg' => 'Błąd zapisu!');
-                    $this->response($this->json($result), 200);
+                    $result = array('status'=>'Failure', 'msg' => 'UWAGA: Błąd zapisu!');
+                    $this->response($this->json($result), 400);
                 }
             }
             catch (Exception $e)
             {
-                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie zapisu!");
+                $error = array('status' => "Failure", "msg" => "UWAGA: Wyjątek przy próbie zapisu!");
                 $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $error = array('status' => "Failure", "msg" => "UWAGA: Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -71,19 +76,19 @@ class API extends REST
                 }
                 else
                 {
-                    $result = array('status'=>'Success', 'msg' => 'Błąd odczytu!');
+                    $result = array('status'=>'Failure', 'msg' => 'UWAGA: Błąd odczytu!');
                     $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
             {
-                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie odczytu!");
+                $error = array('status' => "Failure", "msg" => "UWAGA: Wyjątek przy próbie odczytu!");
                 $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $error = array('status' => "Failure", "msg" => "UWAGA: Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -105,19 +110,19 @@ class API extends REST
                 }
                 else
                 {
-                    $failed = array('status' => "Failure", "msg" => "Błąd usuwania!");
+                    $failed = array('status' => "Failure", "msg" => "UWAGA: Błąd usuwania!");
                     $this->response($this->json($failed), 200);
                 }
             }
             catch (Exception $e)
             {
-                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie usunięcia!");
+                $error = array('status' => "Failure", "msg" => "UWAGA: Wyjątek przy próbie usunięcia!");
                 $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $error = array('status' => "Failure", "msg" => "UWAGA: Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -139,6 +144,11 @@ class API extends REST
                 unset($json_array["tableName"]);
                 unset($json_array[$tableName . "_id"]);
                 $res = $this->db->updateById($tableName, $id, $json_array);
+                if(is_string($res))
+                {
+                    $success = array('status' => "Failure", "msg" => $res);
+                    $this->response($this->json($success), 400);
+                }
                 if($res > 0)
                 {
                     $success = array('status' => "Success", "msg" => "Poprawiono!");
@@ -146,19 +156,19 @@ class API extends REST
                 }
                 else
                 {
-                    $failed = array('status' => "Failure", "msg" => "Błąd nadpisu!");
+                    $failed = array('status' => "Failure", "msg" => "UWAGA: Błąd nadpisu!");
                     $this->response($this->json($failed), 200);
                 }
             }
             catch (Exception $e)
             {
-                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie nadpisu!");
+                $error = array('status' => "Failure", "msg" => "UWAGA: Wyjątek przy próbie nadpisu!");
                 $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $error = array('status' => "Failure", "msg" => "UWAGA: Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }
@@ -181,19 +191,19 @@ class API extends REST
                 }
                 else
                 {
-                    $result = array('status' => 'Failure', 'msg' => 'Błąd funkcji!');
+                    $result = array('status' => 'Failure', 'msg' => 'UWAGA: Błąd funkcji!');
                     $this->response($this->json($result), 200);
                 }
             }
             catch (Exception $e)
             {
-                $error = array('status' => "Failure", "msg" => "Wyjątek przy próbie wywołania funkcji!");
+                $error = array('status' => "Failure", "msg" => "UWAGA: Wyjątek przy próbie wywołania funkcji!");
                 $this->response($this->json($error), 400);
             }
         }
         else
         {
-            $error = array('status' => "Failure", "msg" => "Błąd żądania!");
+            $error = array('status' => "Failure", "msg" => "UWAGA: Błąd żądania!");
             $this->response($this->json($error), 400);
         }
     }

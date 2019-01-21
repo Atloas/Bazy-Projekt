@@ -1,3 +1,105 @@
-input {
+body {
+    background-color: #f5f5f5;
+}
+
+select {
+    width: 9em;
+}
+
+form {
     display: block;
+}
+
+.section {
+    width: 70%;
+    min-width: 600px;
+    max-width: 1200px;
+    padding: 25px;
+    margin: 25px auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdfdfd;
+}
+
+.container {
+    margin: 0.1em auto;
+    width: 21em;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.selectContainer {
+    width: 13em;
+}
+
+.buttonContainer {
+    margin: 0.3em auto;
+    justify-content: center;
+}
+
+#tableSelectArea, #functionSelectArea, #functionArgumentArea{
+    display: flex;
+    flex-direction: column;
+}
+
+.textInput {
+    width: 17em;
+    -webkit-appearance: none;
+    border: 1px solid #eee;
+}
+
+hr {
+    width: 23em;
+}
+
+.vin {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+table {
+    margin: 1em auto;
+    border: 1px solid #999;
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.2em 0.3em;
+    border-left: 1px solid #999;
+}
+
+th {
+    cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+tr:nth-child(odd) {
+    background-color: #f7f7f7;
+}
+
+tr:first-child {
+    background-color: #fefefe;
+}
+
+.tableHeader {
+    font-size: 1.05em;
+    font-weight: normal;
+}
+
+#messageText {
+    text-align: center;
+    margin: 0.5em 0;
+    font-size: 1.1em;
+}
+
+.Success {
+    color: darkgreen;
+}
+
+.Failure {
+    color: darkred;
 }

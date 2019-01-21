@@ -14,21 +14,36 @@ var tableFields = {
     "samochody": ["modele_id", "salony_id", "vin"],
     "klienci": ["imie", "nazwisko", "miasto", "ulica"],
     "salony": ["miasto", "ulica"],
-    "sprzedaze": ["samochody_id", "klienci_id", "pracownicy_id", "salody_id", "data"],
+    "sprzedaze": ["samochody_id", "klienci_id", "pracownicy_id", "salony_id", "data"],
     "pracownicy": ["imie", "nazwisko", "pozycja", "placa", "salony_id"]
 };
 var selectOptions = {
-    "paliwo": ["wszystko"],
-    "marki": ["wszystko"],
-    "modele": ["wszystko", "modeleWgSpalaniaPaliwa", "modeleWgCeny"],
-    "samochody": ["wszystko", "sprzedaneSamochody", "nieSprzedaneSamochody"],
-    "klienci": ["wszystko", "klienciBezZakupu", "selectKlientByName"],
-    "salony": ["wszystko"],
-    "sprzedaze": ["wszystko"],
-    "pracownicy": ["wszystko"]
+    "paliwo": ["wszystko", "selectPaliwoById"],
+    "marki": ["wszystko", "selectMarkaById"],
+    "modele": ["wszystko", "selectModelBelowPrice", "selectModelAbovePrice", "selectModelById"],
+    "samochody": ["wszystko", "sprzedaneSamochody", "nieSprzedaneSamochody", "selectSamochodById"],
+    "klienci": ["wszystko", "klienciBezZakupu", "selectKlientByName", "selectKlientById"],
+    "salony": ["wszystko", "selectSalonByCity", "selectSalonById"],
+    "sprzedaze": ["wszystko", "selectSprzedazBeforeDate", "selectSprzedazAfterDate", "selectSprzedazById"],
+    "pracownicy": ["wszystko", "selectPracownikByName", "selectPracownikBySalonId", "selectPracownikById"]
 };
 var functionArgs = {
-    "selectKlientByName": ["imie", "nazwisko"]
+    "selectKlientByName": ["imie", "nazwisko"],
+    "selectPracownikByName": ["imie", "nazwisko"],
+    "selectSalonByCity": ["miasto"],
+    "selectModelBelowPrice": ["cena"],
+    "selectModelAbovePrice": ["cena"],
+    "selectPracownikBySalonId": ["salony_id"],
+    "selectSprzedazBeforeDate": ["data"],
+    "selectSprzedazAfterDate": ["data"],
+    "selectPaliwoById": ["paliwo_id"],
+    "selectModelById": ["modele_id"],
+    "selectSamochodById": ["samochody_id"],
+    "selectKlientById": ["klienci_id"],
+    "selectSprzedazById": ["sprzedaze_id"],
+    "selectPracownikById": ["pracownicy_id"],
+    "selectSalonById": ["salony_id"],
+    "selectMarkaById": ["marki_id"]
 };
 var nameTranslate = {
     "paliwo_id": "Paliwo ID",
@@ -54,15 +69,28 @@ var nameTranslate = {
     "pozycja": "Pozycja",
     "placa": "Płaca",
     "wszystko": "Wszystko",
-    "modeleWgSpalaniaPaliwa": "Wg. spalania",
-    "modeleWgCeny": "Wg. ceny",
     "sprzedaneSamochody": "Sprzedane",
     "nieSprzedaneSamochody": "Nie sprzedane",
     "klienciBezZakupu": "Bez zakupu",
-    "selectKlientByName": "Po nazwisku"
+    "selectKlientByName": "Po nazwisku",
+    "selectPracownikByName": "Po nazwisku",
+    "selectSalonByCity": "Po mieście",
+    "selectModelBelowPrice": "Poniżej ceny",
+    "selectModelAbovePrice": "Powyżej ceny",
+    "selectPracownikBySalonId": "Po ID salonu",
+    "selectSprzedazBeforeDate": "Przed datą",
+    "selectSprzedazAfterDate": "Po dacie",
+    "selectPaliwoById": "Po ID",
+    "selectModelById": "Po ID",
+    "selectSamochodById": "Po ID",
+    "selectKlientById": "Po ID",
+    "selectSprzedazById": "Po ID",
+    "selectPracownikById": "Po ID",
+    "selectSalonById": "Po ID",
+    "selectMarkaById": "Po ID"
 };
 var numbers = ["moc", "cena", "spalanie", "masa", "placa", "rocznik", "samochody_id", "modele_id", "marki_id", "paliwo_id", "pracownicy_id", "klienci_id", "sprzedaze_id", "salony_id"];
-var views = ["sprzedaneSamochody", "nieSprzedaneSamochody", "klienciBezZakupu", "modeleWgSpalaniaPaliwa", "modeleWgCeny", "wszystko"];
+var views = ["sprzedaneSamochody", "nieSprzedaneSamochody", "klienciBezZakupu", "wszystko"];
 
 function ready()
 {
@@ -82,11 +110,11 @@ function getRequestObject()
 
 function _insert()
 {
-    var children = document.getElementById("przeslijButton").parentNode.children;
+    var children = document.getElementsByTagName("INPUT");
     var data = {};
     for (var i = 0; i < children.length; i++)
     {
-        if(children[i].tagName == "INPUT" && children[i].name != "przeslijButton")
+        if(children[i].name != "przeslijButton")
             data[children[i].name] = children[i].value;
     }
     data["tableName"] = document.getElementById("tableSelect").value;
@@ -99,7 +127,7 @@ function _insert()
 
 function _select()
 {
-    if(document.selectForm.functionSelect.value != "wszystko")
+    if(document.getElementById("functionSelect").value != "wszystko")
         return _function();
     var data = {};
     data["tableName"] = document.getElementById("tableSelect").value;
@@ -112,11 +140,11 @@ function _select()
 
 function _update()
 {
-    var children = document.getElementById("przeslijButton").parentNode.children;
+    var children = document.getElementsByTagName("INPUT");
     var data = {};
     for (var i = 0; i < children.length; i++)
     {
-        if(children[i].tagName == "INPUT" && children[i].name != "przeslijButton")
+        if(children[i].name != "przeslijButton")
             data[children[i].name] = children[i].value;
     }
     data["tableName"] = document.getElementById("tableSelect").value;
@@ -129,11 +157,11 @@ function _update()
 
 function _delete()
 {
-    var children = document.getElementById("przeslijButton").parentNode.children;
+    var children = document.getElementsByTagName("INPUT");
     var data = {};
     for(var i = 0; i < children.length; i++)
     {
-        if(children[i].tagName == "INPUT" && children[i].name != "przeslijButton")
+        if(children[i].name != "przeslijButton")
         {    
             data["idValue"] = children[i].value;
             data["idName"] = children[i].name;
@@ -157,7 +185,10 @@ function _response()
         if(object["msg"] == undefined)
             div.innerHTML = jsonObjectToTable(object);
         else
-            div.innerHTML = object["msg"];
+        {
+            var string = '<div class="' + object["status"] + '" id="messageText">' + object["msg"] + '</div>';
+            div.innerHTML = string;
+        }
     }
 }
 
@@ -165,8 +196,8 @@ function _response()
 function _function()
 {
     //wykonuje wybraną funkcję, chyba trochę inne zachowanie dla widoków
-    var value = document.selectForm.functionSelect.value;
-    var children = document.getElementById("functionArgumentArea").children;
+    var value = document.getElementById("functionSelect").value;
+    var children = document.getElementsByTagName("INPUT");
     var data = {};
     data["functionName"] = value;
     if(views.indexOf(value) == -1)
@@ -174,7 +205,7 @@ function _function()
         data["function"] = "true";
         for (var i = 0; i < children.length; i++)
         {
-            if(children[i].tagName == "INPUT")
+            if(children[i].name != "przeslijButton")
                 data[children[i].name] = children[i].value;
         }
     }
@@ -196,7 +227,7 @@ function modeChanged(event)
     var value = event.target.value;
     if(value != "none")
     {
-        div.innerHTML = `<p>Wybierz tabelę:</p>
+        div.innerHTML = `<div class="container selectContainer">Tabela:
                         <select id="tableSelect">
                             <option value="none">-</option>
                             <option value="paliwo">Paliwo</option>
@@ -208,13 +239,16 @@ function modeChanged(event)
                             <option value="klienci">Klienci</option>
                             <option value="sprzedaze">Sprzedaze</option>
                         </select>
-                        <div id="functionSelectArea"></div>`;
+                        </div><div id="functionSelectArea"></div>`;
         document.getElementById("tableSelect").addEventListener("change", tableChanged);
     }
     else
     {
         div.innerHTML = ``;
     }
+    var text = document.getElementById("messageText");
+    if(text != undefined)
+        text.outerHTML = '';
 }
 
 function tableChanged(event)
@@ -229,31 +263,29 @@ function tableChanged(event)
         {
             case "insert":
             {
-                string = '<form name="insertForm" action="#">';
+                string += '<hr />'
                 string += propertyInputString(tableName);
-                string += '<input type="button" id="przeslijButton" name="przeslijButton" onclick="_insert()" value="Dodaj" disabled /></form>';
+                string += '<hr /><div class="container buttonContainer"><input type="button" id="przeslijButton" name="przeslijButton" onclick="_insert()" value="Dodaj" disabled /></div>';
                 break;
             }
             case "delete":
             {
-                string = '<form name="deleteForm" action="#">';
                 string += idInputString(tableName);
-                string += '<input type="button" id="przeslijButton" name="przeslijButton" onclick="_delete()" value="Usuń" disabled /></form>'
+                string += '<div class="container buttonContainer"><input type="button" id="przeslijButton" name="przeslijButton" onclick="_delete()" value="Usuń" disabled /></div>'
                 break;
             }
             case "update":
             {
-                string = '<form name="updateForm" action="#">';
                 string += idInputString(tableName);
                 string += propertyInputString(tableName);
-                string += '<input type="button" id="przeslijButton" name="przeslijButton" onclick="_update()" value="Popraw" disabled /></form>'
+                string += '<div class="container buttonContainer"><input type="button" id="przeslijButton" name="przeslijButton" onclick="_update()" value="Popraw" disabled /></div>'
                 break;
             }
             case "select":
             {
-                string = '<p>Które dane?</p><form name="selectForm" action="#"><select id="functionSelect" name="functionSelect">';
+                string = '<div class="container selectContainer">Dane:<select id="functionSelect">';
                 string += selectOptionString(tableName);
-                string += '</select><div id="functionArgumentArea"></div><input type="button" id="przeslijButton" name="przeslijButton" onclick="_select()" value="Odczytaj" /></form>'
+                string += '</select></div><div id="functionArgumentArea"></div><div class="container buttonContainer"><input type="button" id="przeslijButton" name="przeslijButton" onclick="_select()" value="Odczytaj" /></div>'
                 break;
             }
         }
@@ -266,11 +298,15 @@ function tableChanged(event)
     var inputs = document.getElementsByTagName("INPUT");
     for(var i = 0; i < inputs.length; i++)
         inputs[i].addEventListener("blur", validateOne);
+
+    var text = document.getElementById("messageText");
+    if(text != undefined)
+        text.outerHTML = '';
 }
 
 function idInputString(tableName)
 {
-    return '<input type="number" name="' + tableName + '_id" placeholder="' + nameTranslate[tableName + '_id'] + '" min="0" />';
+    return '<div class="container">' + nameTranslate[tableName + '_id'] + ':<input class="textInput" type="number" name="' + tableName + '_id" placeholder="' + nameTranslate[tableName + '_id'] + '" min="0" /></div>';
 }
 
 function propertyInputString(tableName)
@@ -280,12 +316,12 @@ function propertyInputString(tableName)
 
     for(var i = 0; i < inputs.length; i++)
     {
-        string += '<input name="' + inputs[i] + '" placeholder="' + nameTranslate[inputs[i]] + '" ';
+        string += '<div class="container">' + nameTranslate[inputs[i]] + ':<input class="textInput" name="' + inputs[i] + '" placeholder="' + nameTranslate[inputs[i]] + '" ';
         if(numbers.indexOf(inputs[i]) > -1)
-            string += 'type="number" min="0"';
+            string += 'type="number" min="0" ';
         else if(inputs[i] == "data")
-            string += 'type="date" min="1886"';
-        string += '/>';
+            string += 'type="date" ';
+        string += '/></div>';
     }
 
     return string;
@@ -306,24 +342,28 @@ function selectOptionString(tableName)
 function functionChanged(event)
 {
     var value = event.target.value;
-    var button = selectForm.przeslijButton;
+    var button = document.getElementById("przeslijButton");
     var div = document.getElementById("functionArgumentArea");
     if(views.indexOf(value) == -1)
     {
         //to funkcja
         var tab = functionArgs[value];
-        var string = '';
+        var string = '<hr />';
         for(var i = 0; i < tab.length; i++)
         {
-            string += '<input name="' + tab[i] + '" ';
+            string += '<div class="container">'+ nameTranslate[tab[i]] + ':<input class="textInput" name="' + tab[i] + '" placeholder="' + nameTranslate[tab[i]] + '" ';
             if(numbers.indexOf(tab[i]) > -1)
                 string += 'type="number"  min="0"';
             else if(tab[i] == "data")
                 string += 'type="date"  min="1886"';
-            string += '/>'
+            string += '/></div>';
         }
+        string += '<hr />';
         div.innerHTML = string;
-        button.disabled = false;
+        var inputs = document.getElementsByTagName("INPUT");
+        button.disabled = true;
+        for(var i = 0; i < inputs.length; i++)
+            inputs[i].addEventListener("blur", validateOne);
     }
     else
     {
@@ -331,19 +371,23 @@ function functionChanged(event)
         div.innerHTML = "";
         button.disabled = false;
     }
+
+    var text = document.getElementById("messageText");
+    if(text != undefined)
+        text.outerHTML = '';
 }
 
 function jsonObjectToTable(jsonObject)
 {
     var keys = [];
-    var string = "<table>";
+    var string = '<table id="responseTable">';
     if(Array.isArray(jsonObject))
     {
         keys = Object.keys(jsonObject[0]);
-        string += "<tr>";
+        string += '<tr class="headerRow">';
         for(var i = 0; i < keys.length; i++)
         {
-            string += "<th>" + nameTranslate[keys[i]] + "</th>";
+            string += '<th onclick="sortTable(' + i + ')"><span class="tableHeader">' + nameTranslate[keys[i]] + '</span></th>';
         }
         string += "</tr>";
         for(var i = 0; i < jsonObject.length; i++)
@@ -351,7 +395,12 @@ function jsonObjectToTable(jsonObject)
             string += "<tr>";
             for(var j = 0; j < keys.length; j++)
             {
-                string += "<td>" + jsonObject[i][keys[j]] + "</td>";
+                string += "<td>";
+                if(keys[j] == "vin")
+                    string += '<span class="vin">';
+                string += jsonObject[i][keys[j]] + "</td>";
+                if(keys[j] == "vin")
+                    string += '</span>';
             }
             string += "</tr>";
         }
@@ -359,15 +408,20 @@ function jsonObjectToTable(jsonObject)
     else
     {
         keys = Object.keys(jsonObject);
-        string += "<tr>";
+        string += '<tr class="headerRow">';
         for(var i = 0; i < keys.length; i++)
         {
-            string += "<th>" + keys[i] + "</th>";
+            string += '<th onclick="sortTable(' + i + ')"><span class="tableHeader">' + keys[i] + '</span></th>';
         }
-        string += "</tr><tr>";
+        string += '</tr><tr>';
         for(var j = 0; j < keys.length; j++)
         {
-            string += "<td>" + jsonObject[keys[j]] + "</td>";
+            string += "<td>";
+            if(keys[j] == "vin")
+                string += '<span class="vin">';
+            strin += jsonObject[keys[j]] + "</td>";
+            if(keys[j] == "vin")
+                string += '</span>';
         }
         string += "</tr>";
     }
@@ -378,6 +432,8 @@ function validateOne(event)
 {
     var object = event.target;
     var valid = false;
+    if(object.name == "przeslijButton")
+        return;
     if(numbers.indexOf(object.name) > -1)
     {
         //Pola typu number
@@ -396,7 +452,7 @@ function validateOne(event)
             valid = true;
     }
     if(valid)
-        object.style.border = "1px solid gray";
+        object.style.border = "1px solid #eee";
     else
         object.style.border = "1px solid red";
 
@@ -417,4 +473,89 @@ function validate()
     }
     button.disabled = false;
     return true;
+}
+
+function sortTable(n)
+{
+    //var table = document.getElementById("responseTable");
+    var table = document.getElementsByTagName("TABLE")[0];
+    var rows;
+    var a, b, head = table.rows[0].getElementsByTagName("TH")[n];
+    var i;
+    var dir = "asc";
+    var switching = true;
+    var shouldSwitch;
+    var switchCount = 0;
+    while(switching)
+    {
+        switching = false;
+        rows = table.rows;
+        for(i = 1; i < (rows.length - 1); i++)
+        {
+            shouldSwitch = false;
+            a = rows[i].getElementsByTagName("TD")[n];
+            b = rows[i+1].getElementsByTagName("TD")[n];
+            if(dir == "asc")
+            {
+                if(numbers.indexOf(reverseNameTranslate(head.innerText)) > -1)
+                {
+                    if(parseFloat(a.innerHTML) > parseFloat(b.innerHTML))
+                    {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(a.innerHTML.toLowerCase() > b.innerHTML.toLowerCase())
+                    {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            else if(dir == "desc")
+            {
+                if(numbers.indexOf(reverseNameTranslate(head.innerText)) > -1)
+                {
+                    if(parseFloat(a.innerHTML) < parseFloat(b.innerHTML))
+                    {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+                else
+                {
+                    if(a.innerHTML.toLowerCase() < b.innerHTML.toLowerCase())
+                    {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if(shouldSwitch)
+        {
+            rows[i].parentNode.insertBefore(rows[i+1], rows[i]);
+            switching = true;
+            switchCount++;
+        }
+        else
+        {
+            if(switchCount == 0 && dir == "asc")
+            {
+                dir = "desc";
+                switching = true;
+            }
+        }
+    }
+}
+
+function reverseNameTranslate(name)
+{
+    for(i in nameTranslate)
+    {
+        if(nameTranslate[i] == name)
+            return i;
+    }
 }

@@ -1,5 +1,5 @@
-INSERT INTO paliwo (nazwa) VALUES ('benzyna');
-INSERT INTO paliwo (nazwa) VALUES ('diesel');
+INSERT INTO paliwo (nazwa) VALUES ('Benzyna');
+INSERT INTO paliwo (nazwa) VALUES ('Diesel');
 
 
 INSERT INTO marki (nazwa) VALUES ('Audi');
