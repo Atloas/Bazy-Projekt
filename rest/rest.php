@@ -23,7 +23,7 @@ class REST{
 
     public function response($data,$status)
     {
-        $this->_code = ($status)?$status:200;
+        $this->_code = ($status) ? $status : 200;
         $this->set_headers();
         echo $data;
         exit;
@@ -88,9 +88,7 @@ class REST{
         switch($this->get_request_method())
         {
             case "POST":
-        //  $this->_request = $this->cleanInputs($_POST);
-        //  break;
-                $this->_request = file_get_contents("php://input") ;
+                $this->_request = file_get_contents("php://input");
                 $this->_request = $this->cleanInputs($this->_request);
                 break;
             case "GET":
@@ -100,7 +98,7 @@ class REST{
                 $this->_request = $this->cleanInputs($_GET);
                 break;
             case "PUT":
-                $this->_request = file_get_contents("php://input") ;
+                $this->_request = file_get_contents("php://input");
                 $this->_request = $this->cleanInputs($this->_request);
                 break;
             default:
@@ -112,9 +110,10 @@ class REST{
     private function cleanInputs($data)
     {
         $clean_input = array();
-        if(is_array($data)){
-        foreach($data as $k => $v)
-          $clean_input[$k] = $this->cleanInputs($v);
+        if(is_array($data))
+        {
+            foreach($data as $k => $v)
+                $clean_input[$k] = $this->cleanInputs($v);
         }
         else
         {
@@ -128,8 +127,8 @@ class REST{
 
     private function set_headers()
     {
-        header("HTTP/1.1 ".$this->_code." ".$this->get_status_message());
-        header("Content-Type:".$this->_content_type);
+        header("HTTP/1.1 " . $this->_code . " " . $this->get_status_message());
+        header("Content-Type:" . $this->_content_type);
     }
 }
 ?>
